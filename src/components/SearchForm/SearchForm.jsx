@@ -1,14 +1,29 @@
+import { useState } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import { BtnSearch, Select, SearchFormStyled } from './SearchForm.styled';
 
-export const SearchForm = () => {
+export const SearchForm = ({ onSubmit }) => {
+  const [value, setValue] = useState('');
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    onSubmit(value);
+    setValue('');
+  };
+
   return (
-    <SearchFormStyled>
+    <SearchFormStyled onSubmit={handleSubmit}>
       <BtnSearch type="submit">
         <FiSearch size="16px" />
       </BtnSearch>
-      <Select aria-label="select" name="region" required>
-        <option selected disabled defaultValue="">
+      <Select
+        aria-label="select"
+        name="region"
+        required
+        onChange={e => setValue(e.target.value)}
+        defaultValue="DEFAULT"
+      >
+        <option disabled value="DEFAULT">
           Select a region and press enter
         </option>
         <option value="africa">Africa</option>
